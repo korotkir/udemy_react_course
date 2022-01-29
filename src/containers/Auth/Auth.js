@@ -5,39 +5,85 @@ import Input from '../../components/UI/Input/Input'
 
 export default class Auth extends Component {
 
-    loginHandler = () => {
-
+  state = {
+    formControls: {
+      email: {
+        value: '',
+        type: 'email',
+        label: 'E-mail',
+        errorMessage: 'Введите корректный e-mail!',
+        valid: false,
+        touched: false,
+        validation: {
+          required: true,
+          email: true,
+        }
+      },
+      password: {
+        value: '',
+        type: 'password',
+        label: 'Пароль',
+        errorMessage: 'Введите корректный пароль!',
+        valid: false,
+        touched: false,
+        validation: {
+          required: true,
+          minLength: 6
+        }
+      }
     }
+  }
 
-    registerHandler = () => {
+  loginHandler = () => {
 
-    }
+  }
 
-    submitHandler = event => {
-        event.preventDefault()
-    }
+  registerHandler = () => {
 
+  }
 
-    render() {
-        return (
-            <div className={styles.Auth}>
-                <div>
-                    <h1>Авторизация</h1>
+  submitHandler = event => {
+    event.preventDefault()
+  }
 
-                    <form className={styles.AuthForm} onSubmit={this.submitHandler}>
-                        <Input
-                            label="Email"
-                        />
-                        <Input
-                            label="Пароль"
-                            errorMessage={'TEST'}
-                        />
+  onChangeHandler = (event, controlName) => {
+    console.log(controlName,': ',event.target.value)
+  }
 
-                        <Button type="success" onClick={this.loginHandler}>Войти</Button>
-                        <Button type="primary" onCloick={this.registerHandler}>Зарегистрироваться</Button>
-                    </form>
-                </div>
-            </div>
-        )
-    }
+  renderInputs() {
+    return Object.keys(this.state.formControls).map((controlName, index) => {
+      const control = this.state.formControls[controlName]
+      return (
+        <Input
+          key={controlName + index}
+          type={control.type}
+          value={control.value}
+          valid={control.valid}
+          touched={control.touched}
+          label={control.label}
+          shouldValidate={!!control.validation}
+          errorMessage={control.errorMessage}
+          onChange={event => this.onChangeHandler(event, controlName)}
+        />
+      )
+    })
+  }
+
+  render() {
+    return (
+      <div className={styles.Auth}>
+        <div>
+          <h1>Авторизация</h1>
+
+          <form className={styles.AuthForm} onSubmit={this.submitHandler}>
+
+            { this.renderInputs() }
+
+            <Button type="success" onClick={this.loginHandler}>Войти</Button>
+            <Button type="primary" onCloick={this.registerHandler}>Зарегистрироваться</Button>
+          </form>
+        </div>
+      </div>
+    )
+  }
 }
