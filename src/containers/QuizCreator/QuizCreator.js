@@ -4,6 +4,8 @@ import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
 import {createControl, validate, validateForm} from '../../form/formFramework'
+import axios from 'axios'
+import {logDOM} from '@testing-library/react'
 
 function createOptionControl(number) {
     return createControl({
@@ -39,6 +41,7 @@ export default class QuizCreator extends Component {
     }
 
     addQuestionHandler = event => {
+        // TODO: Разобрать данную функцию!!!
         event.preventDefault()
 
         const quiz = this.state.quiz.concat()
@@ -68,11 +71,29 @@ export default class QuizCreator extends Component {
         })
     }
 
-    createQuizHandler = event => {
-        event.preventDefault()
+    createQuizHandler = async event => {
+        try {
+            await axios.post('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizes.json', this.state.quiz)
 
-        console.log(this.state.quiz)
+            this.setState({
+                quiz: [],
+                isFormValid: false,
+                rightAnswerId: 1,
+                formControls: createFormControls()
+              })
+        } catch (e) {
+            console.log(e)
+        }
     }
+
+    // createQuizHandler = event => {
+    //     event.preventDefault()
+    //
+    //     axios.post('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizes.json', this.state.quiz)
+    //       .then(response => {
+    //           console.log(response)
+    //       }, error => console.log(error))
+    // }
 
     changeHandler = (value, controlName) => {
         const formControls = { ...this.state.formControls }
