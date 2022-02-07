@@ -5,7 +5,6 @@ import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
 import {createControl, validate, validateForm} from '../../form/formFramework'
 import axios from 'axios'
-import {logDOM} from '@testing-library/react'
 
 function createOptionControl(number) {
     return createControl({
@@ -31,6 +30,7 @@ function createFormControls() {
 export default class QuizCreator extends Component {
     state = {
         quiz: [],
+        quizTitle: [],
         isFormValid: false,
         rightAnswerId: 1,
         formControls: createFormControls()
@@ -48,6 +48,8 @@ export default class QuizCreator extends Component {
         const index = quiz.length + 1
 
         const {question, option1, option2, option3, option4} = this.state.formControls
+
+        console.log(quiz[0] ? Object.values(quiz[0])[0] : 'Пока не определено')
 
         const questionItem = {
             question: this.state.formControls.question.value,
@@ -74,6 +76,7 @@ export default class QuizCreator extends Component {
     createQuizHandler = async event => {
         try {
             await axios.post('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizes.json', this.state.quiz)
+            await axios.post('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizesTitle.json', this.state.quizTitle)
 
             this.setState({
                 quiz: [],
@@ -110,26 +113,26 @@ export default class QuizCreator extends Component {
             isFormValid: validateForm(formControls)
         })
 
+        console.log(this.state.quiz)
+
     }
 
     renderControls() {
         return Object.keys(this.state.formControls)
           .map((controlName, index) => {
             const control = this.state.formControls[controlName]
-
               return (
                 <>
-                    <Input
-                      key={index}
-                      label={control.label}
-                      value={control.value}
-                      valid={control.valid}
-                      shouldValidate={!!control.validation}
-                      touched={control.touched}
-                      errorMessage={control.errorMessage}
-                      onChange={event => this.changeHandler(event.target.value, controlName)}
-                    />
-                    {index === 0 ? <hr/> : null}
+                        <Input
+                          key={index}
+                          label={control.label}
+                          value={control.value}
+                          valid={control.valid}
+                          shouldValidate={!!control.validation}
+                          touched={control.touched}
+                          errorMessage={control.errorMessage}
+                          onChange={event => this.changeHandler(event.target.value, controlName)}
+                        />
                 </>
               )
           })
@@ -139,6 +142,17 @@ export default class QuizCreator extends Component {
         this.setState({
             rightAnswerId: +event.target.value
         })
+    }
+
+    quizTitleHandler = event => {
+        const quizTitle = this.state.quizTitle.concat()
+        let title = event.trim()
+
+        if (title === '') {
+            title = `Тест №${quizTitle.length}`
+        }
+
+        quizTitle.push(title)
     }
 
     render() {
@@ -160,6 +174,17 @@ export default class QuizCreator extends Component {
                   <h1>Создание теста</h1>
 
                   <form onSubmit={this.submitHandler}>
+
+
+                          <div>
+                              <label htmlFor="title">Введите имя теста:</label>&nbsp;
+                              <input
+                                id="title"
+                                onChange={event => this.quizTitleHandler(event.target.value)}
+                              />
+                              <hr/>
+                          </div>
+
 
                       { this.renderControls() }
 
