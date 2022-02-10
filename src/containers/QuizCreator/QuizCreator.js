@@ -30,7 +30,7 @@ function createFormControls() {
 export default class QuizCreator extends Component {
     state = {
         quiz: [],
-        quizTitle: [],
+        quizTitle: '',
         isFormValid: false,
         rightAnswerId: 1,
         formControls: createFormControls()
@@ -49,7 +49,7 @@ export default class QuizCreator extends Component {
 
         const {question, option1, option2, option3, option4} = this.state.formControls
 
-        console.log(quiz[0] ? Object.values(quiz[0])[0] : 'Пока не определено')
+        // console.log(quiz[0] ? Object.values(quiz[0])[0] : 'Пока не определено')
 
         const questionItem = {
             question: this.state.formControls.question.value,
@@ -61,6 +61,10 @@ export default class QuizCreator extends Component {
                 { text: option3.value, id: option3.id },
                 { text: option4.value, id: option4.id },
             ]
+        }
+
+        if (quiz.length < 2) {
+            quiz.push(this.state.quizTitle)
         }
 
         quiz.push(questionItem)
@@ -76,10 +80,10 @@ export default class QuizCreator extends Component {
     createQuizHandler = async event => {
         try {
             await axios.post('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizes.json', this.state.quiz)
-            await axios.post('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizesTitle.json', this.state.quizTitle)
 
             this.setState({
                 quiz: [],
+                quizTitle: '',
                 isFormValid: false,
                 rightAnswerId: 1,
                 formControls: createFormControls()
@@ -113,7 +117,6 @@ export default class QuizCreator extends Component {
             isFormValid: validateForm(formControls)
         })
 
-        console.log(this.state.quiz)
 
     }
 
@@ -123,16 +126,29 @@ export default class QuizCreator extends Component {
             const control = this.state.formControls[controlName]
               return (
                 <>
-                        <Input
-                          key={index}
-                          label={control.label}
-                          value={control.value}
-                          valid={control.valid}
-                          shouldValidate={!!control.validation}
-                          touched={control.touched}
-                          errorMessage={control.errorMessage}
-                          onChange={event => this.changeHandler(event.target.value, controlName)}
-                        />
+                    {
+                        index === 0
+                          ? this.state.quiz.length >= 2
+                            ? <h1>{this.state.quizTitle}</h1>
+                            : <Input
+                              label="Введите имя теста"
+                              value={this.state.quizTitle}
+                              onChange={event => this.quizTitleHandler(event.target.value)}
+                            />
+                          : null
+                    }
+
+                    <Input
+                      key={index}
+                      label={control.label}
+                      value={control.value}
+                      valid={control.valid}
+                      shouldValidate={!!control.validation}
+                      touched={control.touched}
+                      errorMessage={control.errorMessage}
+                      onChange={event => this.changeHandler(event.target.value, controlName)}
+                    />
+                    {index === 0 ? <hr/> : null}
                 </>
               )
           })
@@ -145,15 +161,12 @@ export default class QuizCreator extends Component {
     }
 
     quizTitleHandler = event => {
-        const quizTitle = this.state.quizTitle.concat()
-        let title = event.trim()
-
-        if (title === '') {
-            title = `Тест №${quizTitle.length}`
-        }
-
-        quizTitle.push(title)
+        const quizTitle = event
+        this.setState({
+            quizTitle
+        })
     }
+
 
     render() {
         const select = <Select
@@ -174,17 +187,6 @@ export default class QuizCreator extends Component {
                   <h1>Создание теста</h1>
 
                   <form onSubmit={this.submitHandler}>
-
-
-                          <div>
-                              <label htmlFor="title">Введите имя теста:</label>&nbsp;
-                              <input
-                                id="title"
-                                onChange={event => this.quizTitleHandler(event.target.value)}
-                              />
-                              <hr/>
-                          </div>
-
 
                       { this.renderControls() }
 

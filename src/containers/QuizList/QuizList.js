@@ -36,10 +36,9 @@ export default class QuizList extends Component {
             const quizes = []
             Object.keys(response.data).forEach((key, index) => {
                 let data = response.data
-                console.log(data)
                 quizes.push({
                     id: key,
-                    name: `Тест №${index + 1}`
+                    name: Object.values(data)[index][0]
                 })
             })
 

@@ -13,9 +13,11 @@
     padding: 0 20px;
 }
 
-.QuizCreator h1 {
+.QuizCreator h1,h2 {
     text-align: center;
 }
+
+
 
 .QuizCreator form {
     background: #eee;
