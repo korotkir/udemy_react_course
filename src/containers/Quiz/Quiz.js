@@ -2,6 +2,20 @@ import { Component } from "react";
 import styles from "./Quiz.module.css"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import axios from '../../axios/axios-quiz'
+import Loader from '../../components/UI/Loader/Loaders'
+import {useParams} from 'react-router-dom'
+
+// TODO: Для работоспособности приложения необходимо удалить импорт,
+//  функцию withParams, удалить переменную { id } и поменять строку
+//  отправки на сервер. Не забудь убрать hoc функцию в экспорте!
+
+
+
+function withParams(Component) {
+  return props => <Component {...props} params={useParams()}/>
+}
+
 
 class Quiz extends Component {
   state = {
@@ -9,30 +23,8 @@ class Quiz extends Component {
     isFinished: false,
     activeQuestion: 0,
     answerState: null, // { [id]: 'success' || 'error' }
-    quiz: [
-      {
-        id: 1,
-        question: 'Какого цвета небо?',
-        rightAnswerId: 2,
-        answers: [
-          {text: 'Черный', id: 1},
-          {text: 'Синий', id: 2},
-          {text: 'Красный', id: 3},
-          {text: 'Зеленый', id: 4},
-        ]
-      },
-      {
-        id: 2,
-        question: 'В каком году основали Санкт-Петербург',
-        rightAnswerId: 3,
-        answers: [
-          {text: '1700', id: 1},
-          {text: '1705', id: 2},
-          {text: '1703', id: 3},
-          {text: '1803', id: 4},
-        ]
-      },
-    ],
+    quiz: [],
+    loading: true,
   }
 
   onAnswerClickHandler = (answerId) => {
@@ -96,6 +88,24 @@ class Quiz extends Component {
     })
   }
 
+  async componentDidMount() {
+    console.log(this.props.match)
+    try {
+      let { id } = this.props.params
+      // const response = await axios.get(`/quizes/${this.props.match.params.id}.json`)
+      const response = await axios.get(`/quizes/${id}.json`)
+      const quiz = response.data
+      console.log(id)
+
+      this.setState({
+        quiz,
+        loading: false
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   render() {
     return (
       <div className={styles.Quiz}>
@@ -104,25 +114,28 @@ class Quiz extends Component {
           <h1>Ответьте на все вопросы!</h1>
 
           {
-            this.state.isFinished
-              ? <FinishedQuiz
+            this.state.loading
+              ? <Loader />
+              : this.state.isFinished
+                ? <FinishedQuiz
                   results={this.state.results}
                   quiz={this.state.quiz}
                   onRetry={this.retryHandler}
                 />
-              : <ActiveQuiz
+                : <ActiveQuiz
                   answers={this.state.quiz[this.state.activeQuestion].answers}
-                  question={this.state.quiz[0].question}
+                  question={this.state.quiz[this.state.activeQuestion].question}
                   onAnswerClick={this.onAnswerClickHandler}
                   quizLength={this.state.quiz.length}
                   answerNumber={this.state.activeQuestion + 1}
                   state={this.state.answerState}
                 />
           }
+
         </div>
       </div>
     )
   }
 }
 
-export default Quiz
+export default withParams(Quiz)

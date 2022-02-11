@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import styles from './QuizList.module.css'
 import {NavLink} from 'react-router-dom'
-import axios from 'axios'
-import {logDOM} from '@testing-library/react'
+import axios from '../../axios/axios-quiz'
+import Loaders from '../../components/UI/Loader/Loaders'
 
 export default class QuizList extends Component {
 
     state = {
-        quizes: []
+        quizes: [],
+        loading: true
     }
 
     renderQuizes() {
@@ -32,7 +33,7 @@ export default class QuizList extends Component {
 
     async componentDidMount() {
         try {
-            const response = await axios.get('https://react-quiz-f412a-default-rtdb.firebaseio.com/quizes.json')
+            const response = await axios.get('/quizes.json')
             const quizes = []
             Object.keys(response.data).forEach((key, index) => {
                 let data = response.data
@@ -44,7 +45,10 @@ export default class QuizList extends Component {
                 })
             })
 
-            this.setState({ quizes })
+            this.setState({
+                quizes,
+                loading: false
+            })
         } catch (e) {
             console.log(e)
         }
@@ -57,9 +61,14 @@ export default class QuizList extends Component {
                 <div>
                     <h1>Список тестов</h1>
 
-                    <ul>
-                        {this.renderQuizes()}
-                    </ul>
+                    {
+                        this.state.loading
+                            ? <Loaders />
+                            :  <ul>
+                              {this.renderQuizes()}
+                          </ul>
+                    }
+
                 </div>
             </div>
         )
