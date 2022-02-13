@@ -1,65 +1,46 @@
-import { Component } from "react";
+import {useEffect, useState} from 'react'
 import styles from "./Quiz.module.css"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 import axios from '../../axios/axios-quiz'
 import Loader from '../../components/UI/Loader/Loaders'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-// TODO: Для работоспособности приложения необходимо удалить импорт,
-//  функцию withParams, удалить переменную { id } и поменять строку
-//  отправки на сервер. Не забудь убрать hoc функцию в экспорте!
-//  Также удали react-router!
+function Quiz(props) {
+  const [results, setResults] = useState({})
+  const [isFinished, setIsFinished] = useState(false)
+  const [activeQuestion, setActiveQuestion] = useState(0)
+  const [answerState, setAnswerState] = useState(null)
+  const [quiz, setQuiz] = useState([])
+  const [loading, setLoading] = useState(true)
+  const { ident } = useParams()
 
-
-
-
-function withParams(Component) {
-  return props => <Component {...props} params={useParams()}/>
-}
-
-
-class Quiz extends Component {
-  state = {
-    results: {}, // {[id: success || error]}
-    isFinished: false,
-    activeQuestion: 0,
-    answerState: null, // { [id]: 'success' || 'error' }
-    quiz: [],
-    loading: true,
-  }
-
-  onAnswerClickHandler = (answerId) => {
-    if (this.state.answerState) {
-      const key = Object.keys(this.state.answerState)[0]
-      if (this.state.answerState[key] === 'success') {
+  function onAnswerClickHandler(answerId) {
+    if (answerState) {
+      const key = Object.keys(answerState)[0]
+      if (answerState[key] === 'success') {
         return
       }
     }
 
-    const question = this.state.quiz[this.state.activeQuestion]
-    const results = this.state.results
+    const question = quiz[activeQuestion]
+    const results = results
 
     if (question.rightAnswerId === answerId) {
       if (!results[question.id]) {
         results[question.id] = 'success'
       }
 
-      this.setState( {
-        answerState: {[answerId]: 'success'},
-        results
-      } )
+      setAnswerState({[answerId]: 'success'})
+      setResults(results)
+
 
       const timeout = window.setTimeout(() => {
-        if (this.isQuizFinished()) {
-          this.setState({
-            isFinished: true,
-          })
+        if (isQuizFinished()) {
+          setIsFinished(true)
         } else {
-          this.setState({
-            activeQuestion: this.state.activeQuestion + 1,
-            answerState: null
-          })
+          setActiveQuestion(activeQuestion + 1)
+          setAnswerState(null)
         }
 
         window.clearTimeout(timeout)
@@ -67,70 +48,64 @@ class Quiz extends Component {
 
     } else {
       results[question.id] = 'error'
-      this.setState( {
-        answerState: {[answerId]: 'error'},
-        results
-      } )
-    }
-
-    console.log('answerState ', this.state.answerState)
-
-  }
-
-  isQuizFinished() {
-    return this.state.activeQuestion + 1 === this.state.quiz.length
-  }
-
-  retryHandler = () => {
-    this.setState({
-      activeQuestion: 0,
-      answerState: null,
-      isFinished: false,
-      results: {}
-    })
-  }
-
-  async componentDidMount() {
-    console.log(this.props.match)
-    try {
-      let { id } = this.props.params
-      // const response = await axios.get(`/quizes/${this.props.match.params.id}.json`)
-      const response = await axios.get(`/quizes/${id}.json`)
-      const quiz = response.data
-      console.log(id)
-
-      this.setState({
-        quiz,
-        loading: false
-      })
-    } catch (e) {
-      console.log(e)
+      setAnswerState({[answerId]: 'error'})
+      setResults(results)
     }
   }
 
-  render() {
+  function isQuizFinished() {
+    return activeQuestion + 1 === quiz.length
+  }
+
+  function retryHandler() {
+    setActiveQuestion(0)
+    setAnswerState(null)
+    setIsFinished(false)
+    setResults({})
+  }
+
+  useEffect(() => {
+    async function didMount() {
+      try {
+
+        const response = await axios.get(`/quizes/${ident}.json`)
+        const quiz = response.data
+
+        setQuiz(quiz)
+        setLoading(false)
+
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    didMount()
+    console.log(quiz)
+    console.log(ident)
+  }, [])
+
     return (
       <div className={styles.Quiz}>
 
         <div className={styles.QuizWrapper}>
-          <h1>Ответьте на все вопросы!</h1>
+          <h1>Ответьте на все вопросы! (func)</h1>
 
           {
-            this.state.loading
+            loading
               ? <Loader />
-              : this.state.isFinished
+              : isFinished
                 ? <FinishedQuiz
-                  results={this.state.results}
-                  quiz={this.state.quiz}
-                  onRetry={this.retryHandler}
+                    results={results}
+                    quiz={quiz}
+                    onRetry={retryHandler}
                 />
                 : <ActiveQuiz
-                  answers={this.state.quiz[this.state.activeQuestion].answers}
-                  question={this.state.quiz[this.state.activeQuestion].question}
-                  onAnswerClick={this.onAnswerClickHandler}
-                  quizLength={this.state.quiz.length}
-                  answerNumber={this.state.activeQuestion + 1}
-                  state={this.state.answerState}
+                    answers={quiz[activeQuestion].answers}
+                    question={quiz[activeQuestion].question}
+                    onAnswerClick={onAnswerClickHandler}
+                    quizLength={quiz.length}
+                    answerNumber={activeQuestion + 1}
+                    state={answerState}
                 />
           }
 
@@ -138,6 +113,6 @@ class Quiz extends Component {
       </div>
     )
   }
-}
 
-export default withParams(Quiz)
+
+export default Quiz

@@ -12,7 +12,7 @@ export default class QuizList extends Component {
     }
 
     renderQuizes() {
-        return this.state.quizes.map((quiz) => {
+        return this.state.quizes.map(quiz => {
             return (
                 <li
                     key={quiz.id}
@@ -39,6 +39,7 @@ export default class QuizList extends Component {
                 let data = response.data
                 quizes.push({
                     id: key,
+                    // name: `Тест №${index + 1}`,
                     name: Object.values(data)[index][0] === ''
                             ? `Тест №${index + 1}`
                             : Object.values(data)[index][0]

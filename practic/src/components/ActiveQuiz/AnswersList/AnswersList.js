@@ -6,12 +6,18 @@ const AnswersList = props => {
     <ul className={styles.AnswersList}>
       { props.answers.map((answer, index) => {
         return (
-          <AnswerItem
-            key={index}
-            answer={answer}
-            onAnswerClick={props.onAnswerClick}
-            state={props.state ? props.state[answer.id] : null}
-          />
+          <>
+            {
+              index === 0
+                ? null
+                : <AnswerItem
+                  key={index}
+                  answer={answer}
+                  onAnswerClick={props.onAnswerClick}
+                  state={props.state ? props.state[answer.id] : null}
+                />
+            }
+          </>
         )
       }) }
     </ul>
