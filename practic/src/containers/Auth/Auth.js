@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import styles from './Auth.module.css'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
+import axios from 'axios'
 
 const validateEmail = (email) => {
   return email.match(
@@ -41,11 +42,32 @@ export default class Auth extends Component {
     }
   }
 
-  loginHandler = () => {
+  loginHandler = async () => {
+    const authData = {
+      email: this.state.formControls.email.value,
+      password: this.state.formControls.password.value,
+      returnSecureToken: true
+    }
 
+    try {
+      const response = axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAMW2JIL-amKsu7QsfNX1I_5CBVETDiB8Y', authData)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  registerHandler = () => {
+  registerHandler = async () => {
+    const authData = {
+      email: this.state.formControls.email.value,
+      password: this.state.formControls.password.value,
+      returnSecureToken: true
+    }
+
+    try {
+      const response = axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAMW2JIL-amKsu7QsfNX1I_5CBVETDiB8Y', authData)
+    } catch (e) {
+      console.log(e)
+    }
 
   }
 
@@ -134,7 +156,7 @@ export default class Auth extends Component {
             </Button>
             <Button
               type="primary"
-              onCloick={this.registerHandler}
+              onClick={this.registerHandler}
               disabled={!this.state.isFormValid}
             >
               Зарегистрироваться
