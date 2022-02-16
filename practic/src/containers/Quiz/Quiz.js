@@ -6,7 +6,7 @@ import axios from '../../axios/axios-quiz'
 import Loader from '../../components/UI/Loader/Loaders'
 import { useParams } from 'react-router-dom'
 
-function Quiz(props) {
+function Quiz() {
   const [results, setResults] = useState({})
   const [isFinished, setIsFinished] = useState(false)
   const [activeQuestion, setActiveQuestion] = useState(0)
@@ -14,6 +14,7 @@ function Quiz(props) {
   const [quiz, setQuiz] = useState([])
   const [loading, setLoading] = useState(true)
   const { ident } = useParams()
+  const [quizTitle, setQuizTitle] = useState('Ответьте на все вопросы!')
 
   function onAnswerClickHandler(answerId) {
     if (answerState) {
@@ -24,15 +25,15 @@ function Quiz(props) {
     }
 
     const question = quiz[activeQuestion]
-    const results = results
+    const resultsClick = results
 
     if (question.rightAnswerId === answerId) {
-      if (!results[question.id]) {
-        results[question.id] = 'success'
+      if (!resultsClick[question.id]) {
+        resultsClick[question.id] = 'success'
       }
 
       setAnswerState({[answerId]: 'success'})
-      setResults(results)
+      setResults(resultsClick)
 
 
       const timeout = window.setTimeout(() => {
@@ -47,9 +48,9 @@ function Quiz(props) {
       }, 1000)
 
     } else {
-      results[question.id] = 'error'
+      resultsClick[question.id] = 'error'
       setAnswerState({[answerId]: 'error'})
-      setResults(results)
+      setResults(resultsClick)
     }
   }
 
@@ -71,9 +72,9 @@ function Quiz(props) {
         const response = await axios.get(`/quizes/${ident}.json`)
         const data = response.data
 
-        const quiz = data.filter(el => typeof el === 'object')
+        setQuizTitle(Object.values(data)[0])
 
-        console.log(quiz)
+        const quiz = data.filter(el => typeof el === 'object')
 
         setQuiz(quiz)
 
@@ -85,15 +86,13 @@ function Quiz(props) {
     }
 
     didMount()
-    console.log(quiz)
-    console.log(ident)
   }, [])
 
     return (
       <div className={styles.Quiz}>
 
         <div className={styles.QuizWrapper}>
-          <h1>Ответьте на все вопросы! (func)</h1>
+          <h1>{quizTitle}</h1>
 
           {
             loading

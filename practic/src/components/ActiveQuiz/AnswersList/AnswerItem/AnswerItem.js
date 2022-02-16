@@ -5,11 +5,10 @@ const AnswerItem = props => {
 
   if (props.state) {
     cls.push(styles[props.state])
-    console.log(cls)
   }
-  
+
   return (
-    <li 
+    <li
     className={cls.join(' ')}
     onClick={() => props.onAnswerClick(props.answer.id)}
     >

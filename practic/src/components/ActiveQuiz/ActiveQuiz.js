@@ -2,7 +2,6 @@ import styles from './ActiveQuiz.module.css'
 import AnswersList from './AnswersList/AnswersList'
 
 const ActiveQuiz = props => {
-  console.log(props)
   return (
     <div className={styles.ActiveQuiz}>
       <p className={styles.Question}>

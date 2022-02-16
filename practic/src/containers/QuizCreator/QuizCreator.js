@@ -126,7 +126,7 @@ export default class QuizCreator extends Component {
           .map((controlName, index) => {
             const control = this.state.formControls[controlName]
               return (
-                <>
+                <React.Fragment key={index}>
                     {
                         index === 0
                           ? this.state.quiz.length >= 2
@@ -150,7 +150,7 @@ export default class QuizCreator extends Component {
                       onChange={event => this.changeHandler(event.target.value, controlName)}
                     />
                     {index === 0 ? <hr/> : null}
-                </>
+                </React.Fragment>
               )
           })
     }
