@@ -69,9 +69,14 @@ function Quiz(props) {
       try {
 
         const response = await axios.get(`/quizes/${ident}.json`)
-        const quiz = response.data
+        const data = response.data
+
+        const quiz = data.filter(el => typeof el === 'object')
+
+        console.log(quiz)
 
         setQuiz(quiz)
+
         setLoading(false)
 
       } catch (e) {

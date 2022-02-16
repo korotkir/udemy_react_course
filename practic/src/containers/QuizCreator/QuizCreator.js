@@ -63,6 +63,7 @@ export default class QuizCreator extends Component {
             ]
         }
 
+        // TODO: ДВА!
         if (quiz.length < 2) {
             quiz.push(this.state.quizTitle)
         }

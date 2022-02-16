@@ -39,6 +39,7 @@ export default class QuizList extends Component {
                 let data = response.data
                 quizes.push({
                     id: key,
+                    // TODO: РАЗ!
                     // name: `Тест №${index + 1}`,
                     name: Object.values(data)[index][0] === ''
                             ? `Тест №${index + 1}`
