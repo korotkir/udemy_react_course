@@ -1,0 +1,11 @@
+.App {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.App button {
+  width: 200px;
+  margin: 20px;
+}
