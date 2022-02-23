@@ -2,19 +2,10 @@ import './App.css';
 import {useState} from 'react'
 // Функция connect (работает как HOC) позволяет соеденить компонент React с Store редакса
 import {connect} from 'react-redux'
+import Counter from './Counter'
 
 function App(props) {
   const [counter, setCounter] = useState(0)
-
-  function addCounter() {
-    setCounter(counter + 1)
-  }
-
-  function removeCounter() {
-    setCounter(counter - 1)
-  }
-
-  console.log('APP ', props)
 
   return (
     <div className="App">
@@ -28,6 +19,7 @@ function App(props) {
         <button onClick={() => props.onAddNumber(15)} className="btn btn-success">Добавить 15</button>
         <button onClick={() => props.onAddNumber(-17)} className="btn btn-danger">Уменьшить на 15</button>
       </div>
+      <Counter />
     </div>
 
   )
@@ -39,11 +31,12 @@ function App(props) {
 // обычными параметрами для компонента который мы соединяем
 // имеется в виду state редюсера
 function mapStateToProps(state) {
+  console.log(state)
   return {
     // говорим что данное поле будет равняться названию counter
     // теперь данное поле мы можем использовать в компоненте app не как state,
     // а как props
-    counter: state.counter
+    counter: state.counter1.counter
   }
 }
 
