@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
+import {add2} from './redux/actions/actions'
 
 function Counter(props)  {
     return (
@@ -8,7 +9,6 @@ function Counter(props)  {
           <hr/>
           <div>
               <button className="btn btn-primary" onClick={() => props.onAdd(43)}>Add 43</button>
-              <button className="btn btn-primary" onClick={props.onSub}>Sub</button>
           </div>
       </div>
     )
@@ -22,8 +22,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAdd: number => dispatch({type: 'ADD2', payload: number}),
-    onSub: () => dispatch({type: 'SUB2'})
+    onAdd: number => dispatch(add2(number)),
+    // onSub: () => dispatch({type: 'SUB2'})
   }
 }
 

@@ -3,6 +3,7 @@ import {useState} from 'react'
 // Функция connect (работает как HOC) позволяет соеденить компонент React с Store редакса
 import {connect} from 'react-redux'
 import Counter from './Counter'
+import {add, addNumber, sub, asyncAdd} from './redux/actions/actions'
 
 function App(props) {
   const [counter, setCounter] = useState(0)
@@ -18,6 +19,9 @@ function App(props) {
       <div>
         <button onClick={() => props.onAddNumber(15)} className="btn btn-success">Добавить 15</button>
         <button onClick={() => props.onAddNumber(-17)} className="btn btn-danger">Уменьшить на 15</button>
+      </div>
+      <div>
+        <button onClick={() => props.onAsyncAdd(100)} className="btn btn-success">Async add 100</button>
       </div>
       <Counter />
     </div>
@@ -44,10 +48,11 @@ function mapStateToProps(state) {
 // данная функция передает в пропсы методы манипулирования со state
 function mapDispatchToProps(dispatch) {
   return {
-    onAdd: () => dispatch({type: 'ADD'}),
-    onSub: () => dispatch({type: 'SUB'}),
+    onAdd: () => dispatch(add()),
+    onSub: () => dispatch(sub()),
     // Передаем в number в поле payload
-    onAddNumber: (number) => dispatch({type: 'ADD_NUMBER', payload: number})
+    onAddNumber: (number) => dispatch(addNumber(number)),
+    onAsyncAdd: (number) => dispatch(asyncAdd(number))
   }
 }
 
