@@ -46,10 +46,8 @@ export default class QuizCreator extends Component {
 
         const quiz = this.state.quiz.concat()
         const index = quiz.length + 1
-
-        const {question, option1, option2, option3, option4} = this.state.formControls
-
-        // console.log(quiz[0] ? Object.values(quiz[0])[0] : 'Пока не определено')
+        // TODO: удалил question
+        const {option1, option2, option3, option4} = this.state.formControls
 
         const questionItem = {
             question: this.state.formControls.question.value,

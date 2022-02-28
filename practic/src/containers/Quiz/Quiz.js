@@ -5,16 +5,18 @@ import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 import axios from '../../axios/axios-quiz'
 import Loader from '../../components/UI/Loader/Loaders'
 import { useParams } from 'react-router-dom'
+import {connect} from 'react-redux'
 
 function Quiz() {
-  const [results, setResults] = useState({})
-  const [isFinished, setIsFinished] = useState(false)
-  const [activeQuestion, setActiveQuestion] = useState(0)
-  const [answerState, setAnswerState] = useState(null)
-  const [quiz, setQuiz] = useState([])
-  const [loading, setLoading] = useState(true)
+  // const [results, setResults] = useState({})
+  // const [isFinished, setIsFinished] = useState(false)
+  // const [activeQuestion, setActiveQuestion] = useState(0)
+  // const [answerState, setAnswerState] = useState(null)
+  // const [quiz, setQuiz] = useState([])
+  // const [loading, setLoading] = useState(true)
+  // const [quizTitle, setQuizTitle] = useState('Ответьте на все вопросы!')
+
   const { ident } = useParams()
-  const [quizTitle, setQuizTitle] = useState('Ответьте на все вопросы!')
 
   function onAnswerClickHandler(answerId) {
     if (answerState) {
@@ -118,5 +120,24 @@ function Quiz() {
     )
   }
 
+function mapStateToProps(state) {
+  return {
+    results: state.quiz.results,
+    isFinished: state.quiz.isFinished,
+    activeQuestion: state.quiz.activeQuestion,
+    answerState: state.quiz.answerState,
+    quiz: state.quiz.quiz,
+    quizTitle: state.quiz.quizTitle,
+    loading: state.quiz.loading
+  }
+}
 
-export default Quiz
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchQuizById: id => dispatch(fetchQuizById())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz)
+
+// TODO: 4:47
