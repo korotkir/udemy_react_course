@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0a7c55c6-57f2-4445-8d33-8f18e2a55479" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +18,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/practic" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -106,7 +105,8 @@
       <workItem from="1645599290211" duration="5817000" />
       <workItem from="1645871466900" duration="19000" />
       <workItem from="1645974350668" duration="7254000" />
-      <workItem from="1646072332789" duration="5419000" />
+      <workItem from="1646072332789" duration="5488000" />
+      <workItem from="1646153294635" duration="6024000" />
     </task>
     <servers />
   </component>

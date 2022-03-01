@@ -1,5 +1,10 @@
 import axios from '../../axios/axios-quiz'
-import {FETCH_QUIZES_ERROR, FETCH_QUIZES_START, FETCH_QUIZES_SUCCESS} from './actionTypes'
+import {
+  FETCH_QUIZ_SUCCESS,
+  FETCH_QUIZES_ERROR,
+  FETCH_QUIZES_START,
+  FETCH_QUIZES_SUCCESS
+} from './actionTypes'
 
 export function fetchQuizes() {
   return async dispatch => {
@@ -22,6 +27,34 @@ export function fetchQuizes() {
     } catch (e) {
         console.log(fetchQuizesError(e))
     }
+  }
+}
+
+export function fetchQuizById(ident) {
+  return async dispatch => {
+    dispatch(fetchQuizesStart())
+
+    try {
+
+      const response = await axios.get(`/quizes/${ident}.json`)
+      const data = response.data
+
+      // setQuizTitle(Object.values(data)[0])
+
+      const quiz = data.filter(el => typeof el === 'object')
+
+      dispatch(fetchQuizSuccess(quiz))
+
+    } catch (e) {
+      dispatch(fetchQuizesError(e))
+    }
+  }
+}
+
+export function fetchQuizSuccess(quiz) {
+  return {
+    type: FETCH_QUIZ_SUCCESS,
+    quiz
   }
 }
 
