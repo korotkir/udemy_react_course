@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react'
 import styles from "./Quiz.module.css"
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
-import axios from '../../axios/axios-quiz'
 import Loader from '../../components/UI/Loader/Loaders'
 import { useParams } from 'react-router-dom'
 import {connect} from 'react-redux'
-import {fetchQuizById} from '../../store/actions/quiz'
+import {fetchQuizById, quizAnswerClick, retryQuiz} from '../../store/actions/quiz'
+import {cleanup} from '@testing-library/react'
 
 function Quiz(props) {
   // const [results, setResults] = useState({})
@@ -19,63 +19,9 @@ function Quiz(props) {
 
   const { ident } = useParams()
 
-
-  function onAnswerClickHandler(answerId) {
-    if (props.answerState) {
-      const key = Object.keys(props.answerState)[0]
-      if (props.answerState[key] === 'success') {
-        return
-      }
-    }
-
-    const question = props.quiz[props.activeQuestion]
-    const resultsClick = props.results
-
-    if (question.rightAnswerId === answerId) {
-      if (!resultsClick[question.id]) {
-        resultsClick[question.id] = 'success'
-      }
-
-      props.answerState({[answerId]: 'success'})
-      props.results(resultsClick)
-
-
-      const timeout = window.setTimeout(() => {
-        if (isQuizFinished()) {
-          props.isFinished(true)
-        } else {
-          props.activeQuestion(props.activeQuestion + 1)
-          props.answerState(null)
-        }
-
-        window.clearTimeout(timeout)
-      }, 1000)
-
-    } else {
-      resultsClick[question.id] = 'error'
-      props.answerState({[answerId]: 'error'})
-      props.results(resultsClick)
-    }
-  }
-
-  function isQuizFinished() {
-    return props.activeQuestion + 1 === props.quiz.length
-  }
-
-  function retryHandler() {
-    props.activeQuestion(0)
-    props.answerState(null)
-    props.isFinished(false)
-    props.results({})
-  }
-
   useEffect(() => {
-    function didMount() {
-      console.log(ident)
-      fetchQuizById(ident)
-    }
-
-    didMount()
+    props.fetchQuizById(ident)
+    return cleanup => props.retryQuiz()
   }, [])
 
     return (
@@ -91,12 +37,12 @@ function Quiz(props) {
                 ? <FinishedQuiz
                     results={props.results}
                     quiz={props.quiz}
-                    onRetry={retryHandler}
+                    onRetry={props.retryQuiz}
                 />
                 : <ActiveQuiz
                     answers={props.quiz[props.activeQuestion].answers}
                     question={props.quiz[props.activeQuestion].question}
-                    onAnswerClick={onAnswerClickHandler}
+                    onAnswerClick={props.quizAnswerClick}
                     quizLength={props.quiz.length}
                     answerNumber={props.activeQuestion + 1}
                     state={props.answerState}
@@ -123,6 +69,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchQuizById: ident => dispatch(fetchQuizById(ident)),
+    quizAnswerClick: answerId => dispatch(quizAnswerClick(answerId)),
+    retryQuiz: () => dispatch(retryQuiz())
   }
 }
 

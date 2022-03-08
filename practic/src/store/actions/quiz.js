@@ -3,7 +3,10 @@ import {
   FETCH_QUIZ_SUCCESS,
   FETCH_QUIZES_ERROR,
   FETCH_QUIZES_START,
-  FETCH_QUIZES_SUCCESS
+  FETCH_QUIZES_SUCCESS,
+  QUIZ_SET_STATE,
+  FINISH_QUIZ,
+  QUIZ_NEXT_QUESTION, QUIZ_RETRY,
 } from './actionTypes'
 
 export function fetchQuizes() {
@@ -76,4 +79,81 @@ export function fetchQuizesError(e) {
     type: FETCH_QUIZES_ERROR,
     error: e
   }
+}
+
+export function quizSetState(answerState, results) {
+  return {
+    type: QUIZ_SET_STATE,
+    answerState, results
+  }
+}
+
+export function finishQuiz() {
+  return {
+    type: FINISH_QUIZ
+  }
+}
+
+export function quizNextQuestion(number) {
+  return {
+    type: QUIZ_NEXT_QUESTION,
+    number
+  }
+}
+
+export function quizAnswerClick(answerId) {
+  return (dispatch, getState) => {
+    const state = getState().quiz
+
+    if (state.answerState) {
+      const key = Object.keys(state.answerState)[0]
+      if (state.answerState[key] === 'success') {
+        return
+      }
+    }
+
+    const question = state.quiz[state.activeQuestion]
+    const resultsClick = state.results
+
+    if (question.rightAnswerId === answerId) {
+      if (!resultsClick[question.id]) {
+        resultsClick[question.id] = 'success'
+      }
+
+      dispatch(quizSetState({[answerId]: 'success'}, resultsClick))
+
+      // state.answerState({[answerId]: 'success'})
+      // state.results(resultsClick)
+
+
+      const timeout = window.setTimeout(() => {
+        if (isQuizFinished(state)) {
+          dispatch(finishQuiz())
+          // state.isFinished(true)
+        } else {
+          dispatch(quizNextQuestion(state.activeQuestion + 1))
+          // state.activeQuestion(state.activeQuestion + 1)
+          // state.answerState(null)
+        }
+
+        window.clearTimeout(timeout)
+      }, 1000)
+
+    } else {
+      resultsClick[question.id] = 'error'
+      // state.answerState({[answerId]: 'error'})
+      // state.results(resultsClick)
+      dispatch(quizSetState({[answerId]: 'error'}, resultsClick))
+    }
+  }
+}
+
+export function retryQuiz() {
+  return {
+    type: QUIZ_RETRY
+  }
+}
+
+function isQuizFinished(state) {
+  return state.activeQuestion + 1 === state.quiz.length
 }
