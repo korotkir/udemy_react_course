@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a7c55c6-57f2-4445-8d33-8f18e2a55479" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/practic/src/store/actions/create.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/practic/src/store/reducers/create.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practic/src/containers/Quiz/Quiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/practic/src/containers/Quiz/Quiz.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practic/src/containers/QuizCreator/QuizCreator.js" beforeDir="false" afterPath="$PROJECT_DIR$/practic/src/containers/QuizCreator/QuizCreator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practic/src/store/actions/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/practic/src/store/actions/actionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practic/src/store/actions/quiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/practic/src/store/actions/quiz.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practic/src/store/reducers/quiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/practic/src/store/reducers/quiz.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/practic/src/store/reducers/rootReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/practic/src/store/reducers/rootReducer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +116,9 @@
       <workItem from="1646072332789" duration="5488000" />
       <workItem from="1646153294635" duration="6720000" />
       <workItem from="1646665908025" duration="1737000" />
-      <workItem from="1646758092475" duration="6748000" />
+      <workItem from="1646758092475" duration="6849000" />
+      <workItem from="1646845899214" duration="2968000" />
+      <workItem from="1646932860134" duration="2268000" />
     </task>
     <servers />
   </component>

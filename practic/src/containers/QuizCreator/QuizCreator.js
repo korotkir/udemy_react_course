@@ -31,7 +31,6 @@ function createFormControls() {
 class QuizCreator extends Component {
     state = {
         quiz: [],
-        quizTitle: '',
         isFormValid: false,
         rightAnswerId: 1,
         formControls: createFormControls()
@@ -59,10 +58,10 @@ class QuizCreator extends Component {
         }
 
         // TODO: Разберись с title!
-        // if (quiz.length < 2) {
+        // if (props.quiz.length < 2) {
         //     quiz.push(this.state.quizTitle)
         // }
-        //
+
         // quiz.push(questionItem)
 
         this.props.createQuizQuestion(questionItem)
@@ -207,7 +206,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         createQuizQuestion: item => dispatch(createQuizQuestion(item)),
-        finishCreateQuiz: () => dispatch(finishCreateQuiz())
+        finishCreateQuiz: () => dispatch(finishCreateQuiz()),
     }
 }
 

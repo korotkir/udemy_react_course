@@ -19,10 +19,10 @@ export function fetchQuizes() {
             let data = response.data
             quizes.push({
                 id: key,
-                // name: `Тест №${index + 1}`,
-                name: Object.values(data)[index][0] === ''
-                        ? `Тест №${index + 1}`
-                        : Object.values(data)[index][0]
+                name: `Тест №${index + 1}`,
+                // name: Object.values(data)[index][0] === ''
+                //         ? `Тест №${index + 1}`
+                //         : Object.values(data)[index][0]
             })
         })
 
