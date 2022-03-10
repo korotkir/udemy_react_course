@@ -35,6 +35,10 @@ export function autoLogout(time) {
   }
 }
 
+export function autoLogin() {
+
+}
+
 export function logout() {
   localStorage.removeItem('token')
   localStorage.removeItem('userId')
