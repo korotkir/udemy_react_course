@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {logout} from '../../store/actions/auth'
 import {connect} from 'react-redux'
 import QuizList from '../../containers/QuizList/QuizList'
-import {Route} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
+import Auth from '../../containers/Auth/Auth'
 
 class Logout extends Component {
   componentDidMount() {
@@ -10,7 +11,9 @@ class Logout extends Component {
   }
 
   render() {
-    return <Route path='*' element={<QuizList />} />
+    return (
+      <Routes><Route path='/' element={<QuizList />} /></Routes>
+    )
   }
 }
 

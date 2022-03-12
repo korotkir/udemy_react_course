@@ -7,6 +7,7 @@ import {Routes, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Logout from './components/Logout/Logout'
 import {useEffect} from 'react'
+import {autoLogin} from './store/actions/auth'
 
 
 function App(props) {
@@ -18,10 +19,9 @@ function App(props) {
  let routes = (
    <Routes>
      <Route path='/auth' element={<Auth />} />
-     <Route path='/quiz-creator' element={<QuizCreator />} />
      <Route path='/quiz/:ident' element={<Quiz />} />
-     <Route path='/' element={<QuizList />} />
-     <Route path="*" element={<Auth />} />
+     <Route path='/' exact element={<QuizList />} />
+     <Route path="*" element={<QuizList />} />
    </Routes>
  )
 
@@ -30,8 +30,8 @@ function App(props) {
      <Routes>
        <Route path='/quiz-creator' element={<QuizCreator />} />
        <Route path='/quiz/:ident' element={<Quiz />} />
-       <Route path='/' element={<QuizList />} />
        <Route path='/logout' element={<Logout />} />
+       <Route path='/' exact element={<QuizList />} />
        <Route path="*" element={<QuizList />} />
      </Routes>
    )
