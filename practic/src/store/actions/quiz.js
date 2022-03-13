@@ -6,7 +6,7 @@ import {
   FETCH_QUIZES_SUCCESS,
   QUIZ_SET_STATE,
   FINISH_QUIZ,
-  QUIZ_NEXT_QUESTION, QUIZ_RETRY,
+  QUIZ_NEXT_QUESTION, QUIZ_RETRY, FETCH_QUIZ_TITLE,
 } from './actionTypes'
 
 export function fetchQuizes() {
@@ -19,10 +19,11 @@ export function fetchQuizes() {
             let data = response.data
             quizes.push({
                 id: key,
-                name: `Тест №${index + 1}`,
-                // name: Object.values(data)[index][0] === ''
-                //         ? `Тест №${index + 1}`
-                //         : Object.values(data)[index][0]
+                // name: `Тест №${index + 1}`,
+                // TODO: Set a title!
+                name: Object.values(data)[index][0] === ''
+                        ? `Тест №${index + 1}`
+                        : Object.values(data)[index][0]
             })
         })
 
@@ -43,6 +44,11 @@ export function fetchQuizById(ident) {
       const data = response.data
 
       // setQuizTitle(Object.values(data)[0])
+      const setTitle = Object.values(data)[0]
+
+      dispatch(fetchQuizTitle(setTitle))
+
+      // TODO: dispatch for Title
 
       const quiz = data.filter(el => typeof el === 'object')
 
@@ -51,6 +57,13 @@ export function fetchQuizById(ident) {
     } catch (e) {
       dispatch(fetchQuizesError(e))
     }
+  }
+}
+
+export function fetchQuizTitle(title) {
+  return {
+    type: FETCH_QUIZ_TITLE,
+    title
   }
 }
 

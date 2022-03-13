@@ -5,7 +5,7 @@ import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
 import {createControl, validate, validateForm} from '../../form/formFramework'
 import {connect} from 'react-redux'
-import {createQuizQuestion, finishCreateQuiz} from '../../store/actions/create'
+import {createQuizTitle, createQuizQuestion, finishCreateQuiz} from '../../store/actions/create'
 
 function createOptionControl(number) {
     return createControl({
@@ -57,10 +57,12 @@ class QuizCreator extends Component {
             ]
         }
 
+        let title = this.props.quizTitle || 'Test'
+
         // TODO: Разберись с title!
-        // if (props.quiz.length < 2) {
-        //     quiz.push(this.state.quizTitle)
-        // }
+        if (this.props.quiz.length < 2) {
+            this.props.createQuizTitle(title)
+        }
 
         // quiz.push(questionItem)
 
@@ -113,11 +115,11 @@ class QuizCreator extends Component {
                     {
                         index === 0
                           ? this.state.quiz.length >= 2
-                            ? <h1>{this.state.quizTitle}</h1>
+                            ? <h1>{this.props.quizTitle}</h1>
                             : <Input
                               label="Введите имя теста"
-                              value={this.state.quizTitle}
-                              onChange={event => this.quizTitleHandler(event.target.value)}
+                              value={this.props.quizTitle}
+                              onChange={event => this.quizTitleHandler(event)}
                             />
                           : null
                     }
@@ -145,10 +147,11 @@ class QuizCreator extends Component {
     }
 
     quizTitleHandler = event => {
-        const quizTitle = event
-        this.setState({
-            quizTitle
-        })
+        const quizTitle = event.target.value
+        // this.setState({
+        //     quizTitle
+        // })
+        this.props.createQuizTitle(quizTitle)
     }
 
 
@@ -205,6 +208,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        createQuizTitle: title => dispatch(createQuizTitle(title)),
         createQuizQuestion: item => dispatch(createQuizQuestion(item)),
         finishCreateQuiz: () => dispatch(finishCreateQuiz()),
     }

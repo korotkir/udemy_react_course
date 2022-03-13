@@ -6,7 +6,7 @@ import {
   QUIZ_SET_STATE,
   FINISH_QUIZ,
   QUIZ_NEXT_QUESTION,
-  QUIZ_RETRY
+  QUIZ_RETRY, FETCH_QUIZ_TITLE
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -23,6 +23,10 @@ const initialState = {
 
 export default function quizReducer(state = initialState, action) {
   switch (action.type) {
+    case FETCH_QUIZ_TITLE:
+      return {
+        ...state, quizTitle: action.title
+      }
     case FETCH_QUIZES_START:
       return {
         ...state, loading: true

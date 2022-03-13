@@ -6,7 +6,6 @@ import Loader from '../../components/UI/Loader/Loaders'
 import { useParams } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchQuizById, quizAnswerClick, retryQuiz} from '../../store/actions/quiz'
-import {cleanup} from '@testing-library/react'
 
 function Quiz(props) {
   // const [results, setResults] = useState({})

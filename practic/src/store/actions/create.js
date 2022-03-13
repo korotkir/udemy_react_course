@@ -1,5 +1,13 @@
-import {ADD_QUIZ_TITLE, CREATE_QUIZ_QUESTION, RESET_QUIZ_CREATION} from './actionTypes'
+import {ADD_QUIZ_TITLE, CREATE_QUIZ_QUESTION, CREATE_QUIZ_TITLE, RESET_QUIZ_CREATION} from './actionTypes'
 import axios from '../../axios/axios-quiz'
+
+
+export function createQuizTitle(title) {
+  return {
+    type: CREATE_QUIZ_TITLE,
+    title
+  }
+}
 
 export function createQuizQuestion(item) {
   return {
