@@ -29,7 +29,7 @@ function App() {
 
   return (
     <>
-    <h1 style={styles}>Вычисляемое свойство: {computed}</h1>
+      <h1 style={styles}>Вычисляемое свойство: {computed}</h1>
       <button className={'btn btn-success'} onClick={() => setNumber(prev => prev + 1)}>Увеличить</button>
       <button className={'btn btn-danger'} onClick={() => setNumber(prev => prev - 1)}>Уменьшить</button>
       <button className={'btn btn-primary'} onClick={() => setColored(prev => !prev)}>Изменить</button>
