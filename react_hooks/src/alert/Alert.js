@@ -9,9 +9,9 @@ export default function Alert() {
   return (
     <div
       className={"alert alert-danger"}
-      onClick={alert.toggle}
+      onClick={alert.hide}
     >
-      <p>Это очень и очень важное сообщение!</p>
+      <p>{alert.text}</p>
     </div>
   )
 }
