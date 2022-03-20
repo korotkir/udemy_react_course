@@ -5,7 +5,7 @@ import {About} from './pages/About'
 import {Profile} from './pages/Profile'
 import {Alert} from './components/Alert'
 import {AlertState} from './context/alert/AlertState'
-//import 'bootstrap/dist/js/bootstrap.min.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
 import {GithubState} from './context/github/GithubState'
 
 function App() {
