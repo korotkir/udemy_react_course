@@ -2,18 +2,21 @@ import {NavLink} from 'react-router-dom'
 
 export const Navbar = () => {
   return (
-    <nav className='navbar navbar-dark bg-primary navbar-expand-lg'>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <a className="navbar-brand">Github Поиск</a>
-        <ul className='navbar-nav'>
-          <li className='nav-item'>
+        <NavLink exact to="/" className='navbar-brand'>Github Search</NavLink>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div className="navbar-nav">
             <NavLink exact to="/" className='nav-link'>Главная</NavLink>
-          </li>
-          <li className='nav-item'>
             <NavLink to="/about" className='nav-link'>Информация</NavLink>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </nav>
   )
 }
+
