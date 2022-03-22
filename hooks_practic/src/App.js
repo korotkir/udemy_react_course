@@ -1,6 +1,6 @@
 import {Navbar} from './components/Navbar'
 import {Home} from './pages/Home'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {HashRouter, Routes, Route} from 'react-router-dom'
 import {About} from './pages/About'
 import {Profile} from './pages/Profile'
 import {Alert} from './components/Alert'
@@ -12,7 +12,7 @@ function App() {
   return (
     <GithubState>
       <AlertState>
-        <BrowserRouter>
+        <HashRouter>
           <Navbar/>
           <div className="container pt-4">
             <Alert alert={{text: 'test alert'}}/>
@@ -22,7 +22,7 @@ function App() {
               <Route path="/profile/:name" exact element={<Profile/>}/>
             </Routes>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </AlertState>
     </GithubState>
   )
