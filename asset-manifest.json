@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/udemy_react_course/hooks_practic/static/css/main.13ad77b7.css",
-    "main.js": "/udemy_react_course/hooks_practic/static/js/main.b3891315.js",
-    "static/js/787.b79579d5.chunk.js": "/udemy_react_course/hooks_practic/static/js/787.b79579d5.chunk.js",
-    "index.html": "/udemy_react_course/hooks_practic/index.html",
-    "main.13ad77b7.css.map": "/udemy_react_course/hooks_practic/static/css/main.13ad77b7.css.map",
-    "main.b3891315.js.map": "/udemy_react_course/hooks_practic/static/js/main.b3891315.js.map",
-    "787.b79579d5.chunk.js.map": "/udemy_react_course/hooks_practic/static/js/787.b79579d5.chunk.js.map"
+    "main.css": "/udemy_react_course/static/css/main.13ad77b7.css",
+    "main.js": "/udemy_react_course/static/js/main.05d0c299.js",
+    "static/js/787.b79579d5.chunk.js": "/udemy_react_course/static/js/787.b79579d5.chunk.js",
+    "index.html": "/udemy_react_course/index.html",
+    "main.13ad77b7.css.map": "/udemy_react_course/static/css/main.13ad77b7.css.map",
+    "main.05d0c299.js.map": "/udemy_react_course/static/js/main.05d0c299.js.map",
+    "787.b79579d5.chunk.js.map": "/udemy_react_course/static/js/787.b79579d5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.13ad77b7.css",
-    "static/js/main.b3891315.js"
+    "static/js/main.05d0c299.js"
   ]
 }
